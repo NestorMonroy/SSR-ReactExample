@@ -12,7 +12,7 @@ app.use(
   '/api',
   proxy('http://react-ssr-api.herokuapp.com', {
     proxyReqOptDecorator(opts) {
-      opts.headers['x-forwarded-host'] = 'localhost:3000';
+      opts.headers['X-Forwarded-Host'] = 'localhost:3000';
       return opts;
     }
   })
@@ -37,9 +37,6 @@ app.get('*', (req, res) => {
     const context = {};
     const content = renderer(req, store, context);
 
-    if (context.url) {
-      return res.redirect(301, context.url);
-    }
     if (context.notFound) {
       res.status(404);
     }
@@ -49,5 +46,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('Listening on prot 3000');
+  console.log('Listening on port 3000');
 });
